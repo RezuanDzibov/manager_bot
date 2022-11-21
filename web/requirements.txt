@@ -3,3 +3,6 @@ psycopg2-binary
 python-dotenv
 djangorestframework_simplejwt
 Pillow
+drf-yasg
+django-filter
+gunicorn

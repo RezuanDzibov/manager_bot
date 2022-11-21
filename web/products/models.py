@@ -49,12 +49,18 @@ class ProductImage(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=500)
-    code = models.CharField(default=generate_uid, unique=True, max_length=6)
-    available = models.BooleanField(default=True)
-    quantity = models.BigIntegerField()
-    size = models.ForeignKey(Size, on_delete=models.PROTECT)
-    color = models.ForeignKey(Color, on_delete=models.PROTECT)
+    name = models.CharField(max_length=500, verbose_name="Название")
+    code = models.CharField(default=generate_uid, unique=True, max_length=7, verbose_name="Артикул")
+    wholesale_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Оптавая Цена")
+    retail_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Розничная Цена")
+    supply_date = models.DateField(verbose_name="Дата поставки")
+    sale_date = models.DateField(verbose_name="Дата продажи")
+    refund = models.BooleanField(verbose_name="Возврат")
+    remainder = models.IntegerField(verbose_name="Остаток")
+    quantity = models.BigIntegerField(verbose_name="Количество")
+    size = models.ForeignKey(Size, on_delete=models.PROTECT, verbose_name="Размер")
+    color = models.ForeignKey(Color, on_delete=models.PROTECT, verbose_name="Цвет")
+    defective = models.BooleanField(verbose_name="Брак")
 
     class Meta:
         verbose_name = "Product"

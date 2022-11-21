@@ -1,11 +1,13 @@
+FROM python:3
 
-FROM python:3.10
-
+ENV APP_HOME=/home/app
 ENV WEB_HOME=/home/app/web
 
+RUN mkdir -p $APP_HOME
 RUN mkdir -p $WEB_HOME
 
-WORKDIR $WEB_HOME
+
+WORKDIR $APP_HOME
 
 RUN apt update && apt install python3 netcat -y
 
@@ -15,8 +17,11 @@ ENV PYTHONUNBUFFERED 1
 RUN pip install --upgrade pip
 
 COPY . $WEB_HOME
+RUN mkdir $APP_HOME/staticfiles
+RUN mkdir $APP_HOME/mediafiles
+COPY ./media/* $APP_HOME/mediafiles
 
-RUN pip install -r requirements.txt
+RUN pip install -r $WEB_HOME/requirements.txt
 
 ENV PYTHONPATH "${PYTHONPATH}:${WEB_HOME}"
 

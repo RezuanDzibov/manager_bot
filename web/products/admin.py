@@ -40,8 +40,21 @@ class ProductImageInline(admin.StackedInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name", "code", "available", "quantity", "color", "size")
-    list_filter = ("available", "color", "size")
+    list_display = (
+        "name",
+        "code",
+        "quantity",
+        "remainder",
+        "defective",
+        "color",
+        "size",
+        "wholesale_price",
+        "retail_price",
+        "supply_date",
+        "sale_date",
+        "refund",
+    )
+    list_filter = ("color", "size", "refund", "defective")
     list_display_links = ("name", "color", "size")
     inlines = [ProductImageInline]
     readonly_fields = ["code"]
