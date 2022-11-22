@@ -5,7 +5,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 from aiogram.utils import markdown as md
 
-import commands
+import options
 import states
 import services
 from settings import dp, bot
@@ -14,7 +14,7 @@ from settings import dp, bot
 @dp.message_handler(commands="start")
 async def cmd_start(message: types.Message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True, one_time_keyboard=True)
-    markup.add(commands.SEARCH_PRODUCT)
+    markup.add(options.SEARCH_PRODUCT)
     await states.StartState.choice.set()
     await message.reply("Выбирете действие", reply_markup=markup)
 
@@ -30,7 +30,7 @@ async def cancel_handler(message: types.Message, state: FSMContext):
     await message.reply("Отмена действия")
 
 
-@dp.message_handler(Text(contains=commands.SEARCH_PRODUCT), state=states.StartState)
+@dp.message_handler(Text(contains=options.SEARCH_PRODUCT), state=states.StartState)
 async def process_search_product(message: types.Message, state: FSMContext):
     await state.finish()
     await states.SearchState.code.set()
