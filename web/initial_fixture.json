@@ -1,0 +1,111 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$VioCXAov5xicARGmHhk0b6$2+vCfkLuIkzPBXDVpW96Mc/ILXyyXDnYfeLcjdS0LXw=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "admin@gmail.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2022-11-19T15:11:04.889Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+   {
+    "model": "products.size",
+    "pk": 1,
+    "fields": {
+      "name": "L"
+    }
+  },
+  {
+    "model": "products.size",
+    "pk": 2,
+    "fields": {
+      "name": "S"
+    }
+  },
+  {
+    "model": "products.color",
+    "pk": 1,
+    "fields": {
+      "name": "Red"
+    }
+  },
+  {
+    "model": "products.color",
+    "pk": 2,
+    "fields": {
+      "name": "Green"
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 1,
+    "fields": {
+      "alt_text": "",
+      "image": "pants.jpg",
+      "product": 1
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 2,
+    "fields": {
+      "alt_text": "",
+      "image": "pants.jpg",
+      "product": 1
+    }
+  },
+  {
+    "model": "products.productimage",
+    "pk": 3,
+    "fields": {
+      "alt_text": "Al te",
+      "image": "shirt.jpg",
+      "product": 2
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+      "name": "Jacket",
+      "code": "77DC863",
+      "wholesale_price": "2000.00",
+      "retail_price": "5000.00",
+      "supply_date": "2022-11-16",
+      "sale_date": "2022-11-25",
+      "refund": false,
+      "remainder": 12,
+      "quantity": 123,
+      "size": 1,
+      "color": 2,
+      "defective": false
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+      "name": "Pants",
+      "code": "92E9E8D",
+      "wholesale_price": "1222.00",
+      "retail_price": "2000.00",
+      "supply_date": "2022-11-20",
+      "sale_date": "2022-11-20",
+      "refund": true,
+      "remainder": 200,
+      "quantity": 12,
+      "size": 2,
+      "color": 2,
+      "defective": false
+    }
+  }
+]
