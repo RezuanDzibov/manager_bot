@@ -38,7 +38,7 @@ async def process_search_product(message: types.Message, state: FSMContext):
 
 
 @dp.message_handler(lambda message: not len(message.text) is 7, state=states.SearchState.code)
-async def process_age_invalid(message: types.Message):
+async def process_code_invalid(message: types.Message):
     return await message.reply(
         "Артикул должен состоять из 7 символов, букв латинского алфавита и цифр. Пример: 11DC5A1 или 11dc5a1  "
     )
