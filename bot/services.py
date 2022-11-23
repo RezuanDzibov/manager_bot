@@ -1,7 +1,5 @@
 from typing import Optional
 
-from aiogram.utils import markdown as md
-
 import settings
 import utils
 import api_request
@@ -10,16 +8,19 @@ import api_request
 field_translations = {
     "name": "Название",
     "code": "Артикул",
+    "color": "Цвет",
+    "pack_quantity": "Количество пачек",
     "wholesale_price": "Оптовая Цена",
     "retail_price": "Розничная Цена",
     "supply_date": "Дата поставки",
-    "sale_date": "Дата продажи",
-    "refund": "Возврат",
+    "sold": "Продано",
     "remainder": "Остаток",
-    "quantity": "Количество",
-    "size": "Размер",
-    "color": "Цвет",
     "defective": "Брак",
+    "refund": "Возврат",
+    "quantity": "Количество",
+    "sizes": "Размеры",
+    "size_value": "Размер",
+    "size_quantity": "Количество товаров размера"
 }
 
 bool_translations = {
@@ -37,6 +38,15 @@ async def get_product(code: str) -> Optional[dict]:
     to_return = {}
     for field_name, field_value in response_data.items():
         if field_name in unused_fields:
+            continue
+        if field_name == "sizes":
+            sizes = list()
+            for size in field_value:
+                size_data = dict()
+                for size_field_name, size_field_value in size.items():
+                    size_data[f"{field_translations[size_field_name]}"] = size_field_value
+                sizes.append(size_data)
+            to_return["sizes"] = sizes
             continue
         if field_name == "images":
             if field_value:
