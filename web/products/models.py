@@ -13,58 +13,48 @@ def generate_uid() -> str:
     return uuid.uuid1().hex[:7].upper()
 
 
-class Size(models.Model):
-    name = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name = "Size"
-        verbose_name_plural = "Sizes"
-
-    def __str__(self) -> str:
-        return self.name
-
-
-class Color(models.Model):
-    name = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name = "Color"
-        verbose_name_plural = "Colors"
-
-    def __str__(self) -> str:
-        return self.name
-
-
-class ProductImage(models.Model):
-    alt_text = models.CharField(max_length=100, blank=True)
-    image = models.ImageField(upload_to=get_upload_path)
-    product = models.ForeignKey("Product", on_delete=models.CASCADE, related_name="images")
-
-    class Meta:
-        verbose_name = "Product Image"
-        verbose_name_plural = "Product Images"
-
-    def __str__(self) -> str:
-        return f"{self.product.name} {self.alt_text}"
-
-
 class Product(models.Model):
     name = models.CharField(max_length=500, verbose_name="Название")
     code = models.CharField(default=generate_uid, unique=True, max_length=7, verbose_name="Артикул")
-    wholesale_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Оптавая Цена")
-    retail_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Розничная Цена")
+    color = models.CharField(max_length=50, verbose_name="Цвет")
+    quantity = models.BigIntegerField(verbose_name="Количество товара")
+    pack_quantity = models.BigIntegerField(verbose_name="Количество пачек")
+    wholesale_price = models.IntegerField(verbose_name="Оптовая Цена")
+    retail_price = models.IntegerField(verbose_name="Розничная Цена")
+    sold = models.BigIntegerField(verbose_name="Продано")
+    remainder = models.BigIntegerField(verbose_name="Остаток")
+    defective = models.BigIntegerField(verbose_name="Брак")
+    refund = models.BigIntegerField(verbose_name="Возврат")
     supply_date = models.DateField(verbose_name="Дата поставки")
-    sale_date = models.DateField(verbose_name="Дата продажи")
-    refund = models.BooleanField(verbose_name="Возврат")
-    remainder = models.IntegerField(verbose_name="Остаток")
-    quantity = models.BigIntegerField(verbose_name="Количество")
-    size = models.ForeignKey(Size, on_delete=models.PROTECT, verbose_name="Размер")
-    color = models.ForeignKey(Color, on_delete=models.PROTECT, verbose_name="Цвет")
-    defective = models.BooleanField(verbose_name="Брак")
 
     class Meta:
-        verbose_name = "Product"
-        verbose_name_plural = "Products"
+        verbose_name = "Товар"
+        verbose_name_plural = "Товары"
 
     def __str__(self) -> str:
-        return self.name[:50]
+        return f"{self.name[:50]}: {self.code}"
+
+
+class Size(models.Model):
+    value = models.IntegerField(verbose_name="Размер")
+    quantity = models.BigIntegerField(verbose_name="Количество")
+    product = models.ForeignKey("Product", on_delete=models.CASCADE, related_name="sizes")
+
+    class Meta:
+        verbose_name = "Размер"
+        verbose_name_plural = "Размеры"
+
+    def __str__(self) -> str:
+        return str(self.value)
+
+
+class ProductImage(models.Model):
+    image = models.ImageField(upload_to=get_upload_path)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
+
+    class Meta:
+        verbose_name = "Фото"
+        verbose_name_plural = "Фотографии"
+
+    def __str__(self) -> str:
+        return f"{self.product.name[:50]}"
