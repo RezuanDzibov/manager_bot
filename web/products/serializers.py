@@ -1,16 +1,23 @@
 from rest_framework import serializers
 
-from .models import Product, ProductImage
+from .models import Product, ProductImage, Size
 
 
 class ProductImageListField(serializers.RelatedField):
-    def to_representation(self, value) -> str:
-        return value.image.url
+    def to_representation(self, obj) -> str:
+        return obj.image.url
+
+
+class SizeListField(serializers.RelatedField):
+    def to_representation(self, obj: Size) -> dict:
+        return {
+            "size_value": obj.value,
+            "size_quantity": obj.quantity,
+        }
 
 
 class ProdcutSerializer(serializers.ModelSerializer):
-    color = serializers.CharField(source="color.name")
-    size = serializers.CharField(source="size.name")
+    sizes = SizeListField(many=True, read_only=True)
     images = ProductImageListField(many=True, read_only=True)
 
     class Meta:
@@ -19,16 +26,17 @@ class ProdcutSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "code",
-            "quantity",
-            "remainder",
-            "defective",
             "color",
-            "size",
+            "quantity",
+            "pack_quantity",
             "wholesale_price",
             "retail_price",
             "supply_date",
-            "sale_date",
+            "sold",
+            "remainder",
+            "defective",
             "refund",
+            "sizes",
             "images",
         ]
 
@@ -36,4 +44,4 @@ class ProdcutSerializer(serializers.ModelSerializer):
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductImage
-        fields = ["alt_text", "image"]
+        fields = ["image"]
