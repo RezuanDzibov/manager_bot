@@ -3,11 +3,11 @@ import logging
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
-from aiogram.utils import markdown as md
 
 import options
 import states
 import services
+import markdown
 from settings import dp, bot
 
 
@@ -37,7 +37,7 @@ async def process_search_product(message: types.Message, state: FSMContext):
     await message.reply("Введите артикул товара")
 
 
-@dp.message_handler(lambda message: not len(message.text) is 7, state=states.SearchState.code)
+@dp.message_handler(lambda message: len(message.text) != 7, state=states.SearchState.code)
 async def process_code_invalid(message: types.Message):
     return await message.reply(
         "Артикул должен состоять из 7 символов, букв латинского алфавита и цифр. Пример: 11DC5A1 или 11dc5a1"
@@ -53,8 +53,7 @@ async def process_search_by_code(message: types.Message, state: FSMContext):
         return
     if "images" in product:
         await bot.send_media_group(message.chat.id, media=product.pop("images"))
-    product = md.text(*[md.text(f"{field_name}:", field_value) for field_name, field_value in product.items()],
-                      sep="\n")
+    product = await markdown.format_product_data(data=product)
     await bot.send_message(
         message.chat.id,
         product,
