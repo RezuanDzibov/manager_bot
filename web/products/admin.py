@@ -3,7 +3,7 @@ from django.contrib.admin.widgets import AdminFileWidget
 from django.utils.safestring import mark_safe
 from django.db.models import ImageField
 
-from .models import Color, Size, ProductImage, Product
+from .models import Size, ProductImage, Product
 
 
 class ProdcutImageWidget(AdminFileWidget):
@@ -21,16 +21,6 @@ class ProdcutImageWidget(AdminFileWidget):
         return mark_safe(u"".join(output))
 
 
-@admin.register(Color)
-class ColorAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(Size)
-class SizeAdmin(admin.ModelAdmin):
-    pass
-
-
 class ProductImageInline(admin.StackedInline):
     model = ProductImage
     formfield_overrides = {
@@ -38,24 +28,33 @@ class ProductImageInline(admin.StackedInline):
     }
 
 
+class SizeInline(admin.TabularInline):
+    model = Size
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "code",
-        "quantity",
-        "remainder",
-        "defective",
         "color",
-        "size",
+        "quantity",
+        "pack_quantity",
         "wholesale_price",
         "retail_price",
-        "supply_date",
-        "sale_date",
+        "sizes_field",
+        "sold",
+        "remainder",
+        "defective",
         "refund",
+        "supply_date",
     )
-    list_filter = ("color", "size", "refund", "defective")
-    list_display_links = ("name", "color", "size")
-    inlines = [ProductImageInline]
+    list_display_links = ("name",)
+    inlines = [SizeInline, ProductImageInline]
     readonly_fields = ["code"]
     search_fields = ["name", "code"]
+    
+    @admin.display(description="Размеры")
+    def sizes_field(self, obj):
+        sizes = obj.sizes.all().order_by("value")
+        return f"{sizes[0].value}-{sizes[len(sizes) - 1].value}"
