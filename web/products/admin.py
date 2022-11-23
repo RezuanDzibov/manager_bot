@@ -42,7 +42,7 @@ class ProductAdmin(admin.ModelAdmin):
         "pack_quantity",
         "wholesale_price",
         "retail_price",
-        "sizes_field",
+        "sizes_range",
         "sold",
         "remainder",
         "defective",
@@ -55,6 +55,6 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ["name", "code"]
     
     @admin.display(description="Размеры")
-    def sizes_field(self, obj):
+    def sizes_range(self, obj):
         sizes = obj.sizes.all().order_by("value")
         return f"{sizes[0].value}-{sizes[len(sizes) - 1].value}"
