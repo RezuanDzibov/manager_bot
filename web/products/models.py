@@ -58,3 +58,35 @@ class ProductImage(models.Model):
 
     def __str__(self) -> str:
         return f"{self.product.name[:50]}"
+
+
+class Order(models.Model):
+    client_name = models.CharField(max_length=255, verbose_name="Имя Клиента")
+    client_city = models.CharField(max_length=100, verbose_name="Город")
+    product = models.ForeignKey(Product, on_delete=models.PROTECT, verbose_name="Артикул Товара")
+    quantity = models.IntegerField(verbose_name="Количество")
+    created_at = models.DateField(verbose_name="Дата Заказа")
+    pay_date = models.DateField(verbose_name="Дата оплаты", blank=True, null=True)
+    is_debt = models.BooleanField(verbose_name="Долг")
+
+    class Meta:
+        verbose_name = "Заказ"
+        verbose_name_plural = "Заказы"
+
+    @property
+    def product_price(self):
+        return self.product.wholesale_price
+
+    @property
+    def sum(self):
+        return self.product_price * self.quantity
+
+    @property
+    def is_paid(self):
+        if self.pay_date:
+            return True
+        else:
+            return False
+
+    def __str__(self) -> str:
+        return f"{self.client_name} {self.product.name[:50]} {self.quantity}"

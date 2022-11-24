@@ -3,7 +3,7 @@ from django.contrib.admin.widgets import AdminFileWidget
 from django.utils.safestring import mark_safe
 from django.db.models import ImageField
 
-from .models import Size, ProductImage, Product
+from .models import Size, ProductImage, Product, Order
 
 
 class ProdcutImageWidget(AdminFileWidget):
@@ -53,8 +53,30 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [SizeInline, ProductImageInline]
     readonly_fields = ["code"]
     search_fields = ["name", "code"]
-    
+
     @admin.display(description="Размеры")
     def sizes_range(self, obj):
         sizes = obj.sizes.all().order_by("value")
         return f"{sizes[0].value}-{sizes[len(sizes) - 1].value}"
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ["client_name", "is_paid", "quantity", "product_price", "sum", "is_debt", "pay_date"]
+    readonly_fields = ["product_price", "sum", "is_paid"]
+
+
+    @admin.display(description="Оплачен")
+    def is_paid(self, obj: Order):
+        if obj.is_paid:
+            return "Да"
+        return "Нет"
+
+    @admin.display(description="Стоимость товара")
+    def product_price(self, obj: Order):
+        return obj.product_price
+
+    @admin.display(description="Сумма")
+    def sum(self, obj: Order):
+        return obj.product_price * obj.quantity
+
