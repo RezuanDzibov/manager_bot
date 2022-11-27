@@ -1,32 +1,8 @@
-from typing import Optional
+from typing import Optional, Union
 
 import settings
-import utils
 import api_request
-
-
-field_translations = {
-    "name": "Название",
-    "code": "Артикул",
-    "color": "Цвет",
-    "pack_quantity": "Количество пачек",
-    "wholesale_price": "Оптовая Цена",
-    "retail_price": "Розничная Цена",
-    "supply_date": "Дата поставки",
-    "sold": "Продано",
-    "remainder": "Остаток",
-    "defective": "Брак",
-    "refund": "Возврат",
-    "quantity": "Количество",
-    "sizes": "Размеры",
-    "size_value": "Размер",
-    "size_quantity": "Количество товаров размера"
-}
-
-bool_translations = {
-    True: "Да",
-    False: "Нет",
-}
+import translates
 
 
 async def get_product(code: str) -> Optional[dict]:
@@ -35,27 +11,21 @@ async def get_product(code: str) -> Optional[dict]:
     response_data = await api_request.get_product_data(url=url)
     if not response_data:
         return None
-    to_return = {}
-    for field_name, field_value in response_data.items():
-        if field_name in unused_fields:
-            continue
-        if field_name == "sizes":
-            sizes = list()
-            for size in field_value:
-                size_data = dict()
-                for size_field_name, size_field_value in size.items():
-                    size_data[f"{field_translations[size_field_name]}"] = size_field_value
-                sizes.append(size_data)
-            to_return["sizes"] = sizes
-            continue
-        if field_name == "images":
-            if field_value:
-                images = await utils.process_images(images=field_value)
-                to_return["images"] = images
-            continue
-        if isinstance(field_value, bool):
-            field_value = bool_translations[field_value]
-        if field_name.endswith("price"):
-            field_value = f"{field_value}₽"
-        to_return[f"{field_translations[field_name]}"] = field_value
-    return to_return
+    return await translates.translate_product(data=response_data, unused_fields=unused_fields)
+
+
+async def commit_sold(code: str, size: int, quantity: int) -> Union[dict, str]:
+    url = settings.API_URL + f"products/commit_sold/{code}/"
+    status_code, content = await api_request.update_sold(
+        url=url,
+        data={"size": size, "quantity": quantity}
+    )
+    if status_code == 200:
+        return await translates.translate_product(data=content)
+    elif status_code == 404:
+        if content["detail"].startswith("Size"):
+            return translates.SIZE_NOT_FOUND.substitute(size=size)
+        elif content["detail"].startswith("Product"):
+            return translates.PRODUCT_NOT_FOUND.substitute(code=code)
+    elif status_code == 400:
+        return translates.INVALID_SOLD_QUANTITY.substitute(content)
