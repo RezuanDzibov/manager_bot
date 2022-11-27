@@ -1,8 +1,12 @@
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework.generics import RetrieveAPIView, GenericAPIView
+from rest_framework.request import HttpRequest
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import RetrieveAPIView
 
+from . import services
 from .models import Product, ProductImage
-from .serializers import ProdcutSerializer, ProductImageSerializer
+from .serializers import ProdcutSerializer, ProductImageSerializer, SoldCommitSerializer
 
 
 class ProductViewSet(ModelViewSet):
@@ -15,3 +19,16 @@ class ProductViewSet(ModelViewSet):
 class ProductImageRetrieve(RetrieveAPIView):
     queryset = ProductImage.objects.all()
     serializer_class = ProductImageSerializer
+
+
+class ProuductSoldView(GenericAPIView):
+    serializer_class = SoldCommitSerializer
+
+    @swagger_auto_schema()
+    def patch(self, request: HttpRequest, product_code: str) -> Response:
+        sold = services.commit_sold(
+            product_code=product_code,
+            size=int(request.data["size"]),
+            quantity=int(request.data["quantity"])
+        )
+        return Response(status=200, data=sold)
