@@ -7,3 +7,9 @@ class StartState(StatesGroup):
 
 class SearchState(StatesGroup):
     code = State()
+
+
+class SoldCommitState(StatesGroup):
+    code = State()
+    size = State()
+    quantity = State()
