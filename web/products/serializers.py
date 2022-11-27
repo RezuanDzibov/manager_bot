@@ -45,3 +45,8 @@ class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductImage
         fields = ["image"]
+
+
+class SoldCommitSerializer(serializers.Serializer):
+    size = serializers.IntegerField(min_value=1)
+    quantity = serializers.IntegerField(min_value=1)
