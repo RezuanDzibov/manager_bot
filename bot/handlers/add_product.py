@@ -180,7 +180,10 @@ async def process_add_product_sizes_invalid_by_sum(message: types.Message, state
 @dp.message_handler(state=states.ProductAddState.sizes)
 async def process_add_product_sizes(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data["sizes"] = [{"value": size_data.split("-")[0], "quantity": size_data.split("-")[1]} for size_data in message.text.split(" ")]
+        data["sizes"] = [
+            {"value": size_data.split("-")[0], "quantity": size_data.split("-")[1]}
+            for size_data in message.text.split(" ")
+        ]
         data["sold"] = 0
         data["remainder"] = data["quantity"]
         await states.ProductAddState.next()
