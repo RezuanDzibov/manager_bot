@@ -29,3 +29,17 @@ async def commit_sold(code: str, size: int, quantity: int) -> Union[dict, str]:
             return translates.PRODUCT_NOT_FOUND.substitute(code=code)
     elif status_code == 400:
         return translates.INVALID_SOLD_QUANTITY.substitute(content)
+
+
+async def add_product(data: dict):
+    url = settings.API_URL + "products/"
+    status_code, content = await api_request.add_product(url=url, json=data)
+    if status_code == 201:
+        return await translates.translate_product(data=content, unused_fields=["id"])
+
+
+async def add_product_image(filename: str, product_code: str):
+    url = settings.API_URL + f"products/image/{product_code}/"
+    status_code = await api_request.add_product_image(url=url, json={"images": [filename]})
+    if status_code == 201:
+        return True
