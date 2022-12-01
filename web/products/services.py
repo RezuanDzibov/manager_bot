@@ -1,9 +1,10 @@
-from django.db import transaction
 from django.db import IntegrityError
+from django.db import transaction
 from django.db.models import F
 from rest_framework.exceptions import NotFound, ValidationError
 
-from .models import Product, Size
+from .models import Product, Size, ProductImage
+from .serializers import ProdcutAddSerializer, ProductImageAddSerializer
 
 
 def commit_sold(product_code: str, size: int, quantity: int) -> dict:
@@ -44,3 +45,27 @@ def commit_sold(product_code: str, size: int, quantity: int) -> dict:
             },
             code=400
         )
+
+
+def create_product(data: dict):
+    serializer = ProdcutAddSerializer(data=data)
+    serializer.is_valid(raise_exception=True)
+    data = serializer.validated_data
+    sizes_data = data.pop("sizes")
+    with transaction.atomic():
+        product = Product.objects.create(**data)
+        sizes = [Size(product=product, **size_data) for size_data in sizes_data]
+        Size.objects.bulk_create(sizes)
+        return product
+
+
+def add_image_to_product(product_code: str, data: dict):
+    serializer = ProductImageAddSerializer(data=data)
+    serializer.is_valid(raise_exception=True)
+    data = serializer.validated_data
+    try:
+        product = Product.objects.get(code=product_code)
+    except Product.DoesNotExist:
+        raise NotFound("Product doesn't exists")
+    images = [ProductImage(product=product, image=image) for image in data["images"]]
+    ProductImage.objects.bulk_create(images)
