@@ -7,7 +7,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from . import services
 from .models import Product, ProductImage
-from .serializers import ProdcutSerializer, ProductImageSerializer, SoldCommitSerializer, ProdcutAddSerializer
+from .serializers import ProdcutSerializer, ProductImageSerializer, SoldCommitSerializer, ProductAddSerializer
 
 
 class ProductViewSet(ModelViewSet):
@@ -36,7 +36,7 @@ class ProuductSoldView(GenericAPIView):
 
 
 class ProductCreateView(GenericAPIView):
-    serializer_class = ProdcutAddSerializer
+    serializer_class = ProductAddSerializer
 
     @swagger_auto_schema(responses={201: ProdcutSerializer()})
     def post(self, request: HttpRequest) -> Response:

@@ -4,7 +4,7 @@ from django.db.models import F
 from rest_framework.exceptions import NotFound, ValidationError
 
 from .models import Product, Size, ProductImage
-from .serializers import ProdcutAddSerializer, ProductImageAddSerializer
+from .serializers import ProductAddSerializer, ProductImageAddSerializer
 
 
 def commit_sold(product_code: str, size: int, quantity: int) -> dict:
@@ -48,7 +48,7 @@ def commit_sold(product_code: str, size: int, quantity: int) -> dict:
 
 
 def create_product(data: dict):
-    serializer = ProdcutAddSerializer(data=data)
+    serializer = ProductAddSerializer(data=data)
     serializer.is_valid(raise_exception=True)
     data = serializer.validated_data
     sizes_data = data.pop("sizes")
