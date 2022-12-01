@@ -196,7 +196,7 @@ async def process_add_product_sizes(message: types.Message, state: FSMContext):
 
 @dp.callback_query_handler(markups.product_images_add_cb.filter(action="add_image"))
 async def process_add_image_accept(call: types.CallbackQuery, callback_data: dict):
-    await call.message.reply("Отправьте не сжатое изобржаение")
+    await call.message.reply("Пожайлуста используйте не сжатое изображение")
     await states.ProductAddImagesState.image.set()
     state = dp.current_state()
     async with state.proxy() as data:
