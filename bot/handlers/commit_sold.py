@@ -6,7 +6,8 @@ import options
 import services
 import states
 from settings import dp, bot
-from . import md
+import translates
+import md
 
 
 @dp.message_handler(Text(contains=options.COMMIT_SOLD), state=states.StartState)
