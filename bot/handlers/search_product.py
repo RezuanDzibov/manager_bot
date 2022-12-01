@@ -1,12 +1,13 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
-from settings import dp, bot, MEDIAFILES_DIR
 
 import options
 import services
 import states
+import translates
 from .utils import show_product
+from settings import dp, bot
 
 
 @dp.message_handler(Text(contains=options.SEARCH_PRODUCT), state=states.StartState)
