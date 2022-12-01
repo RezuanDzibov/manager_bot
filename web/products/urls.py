@@ -10,7 +10,7 @@ urlpatterns = [
     path("image/<str:code>/", views.ProductImageAddView.as_view(), name="product_image_add"),
     path("image/<int:pk>/", views.ProductImageRetrieve.as_view(), name="product_image"),
     path("commit_sold/<str:product_code>/", views.ProuductSoldView.as_view(), name="commit_sold"),
-    path("", views.ProuductCreateView.as_view(), name="product_add"),
+    path("", views.ProductCreateView.as_view(), name="product_add"),
 ]
 
 urlpatterns += router.urls
