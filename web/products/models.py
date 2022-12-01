@@ -19,12 +19,12 @@ class Product(models.Model):
     color = models.CharField(max_length=50, verbose_name="Цвет")
     quantity = models.PositiveIntegerField(verbose_name="Количество товара")
     pack_quantity = models.PositiveIntegerField(verbose_name="Количество пачек")
-    wholesale_price = models.IntegerField(verbose_name="Оптовая Цена")
-    retail_price = models.IntegerField(verbose_name="Розничная Цена")
-    sold = models.BigIntegerField(verbose_name="Продано")
-    remainder = models.BigIntegerField(verbose_name="Остаток")
-    defective = models.BigIntegerField(verbose_name="Брак")
-    refund = models.BigIntegerField(verbose_name="Возврат")
+    wholesale_price = models.PositiveIntegerField(verbose_name="Оптовая Цена")
+    retail_price = models.PositiveIntegerField(verbose_name="Розничная Цена")
+    sold = models.PositiveIntegerField(verbose_name="Продано")
+    remainder = models.PositiveIntegerField(verbose_name="Остаток")
+    defective = models.PositiveIntegerField(verbose_name="Брак", default=0)
+    refund = models.PositiveIntegerField(verbose_name="Возврат", default=0)
     supply_date = models.DateField(verbose_name="Дата поставки")
 
     class Meta:
@@ -36,7 +36,7 @@ class Product(models.Model):
 
 
 class Size(models.Model):
-    value = models.IntegerField(verbose_name="Размер")
+    value = models.PositiveIntegerField(verbose_name="Размер")
     quantity = models.PositiveIntegerField(verbose_name="Количество")
     product = models.ForeignKey("Product", on_delete=models.CASCADE, related_name="sizes")
 
@@ -63,7 +63,7 @@ class ProductImage(models.Model):
 class Order(models.Model):
     customer = models.ForeignKey("Customer", on_delete=models.PROTECT, verbose_name="Покупатель")
     product = models.ForeignKey(Product, on_delete=models.PROTECT, verbose_name="Товар")
-    quantity = models.IntegerField(verbose_name="Количество")
+    quantity = models.PositiveIntegerField(verbose_name="Количество")
     created_at = models.DateField(verbose_name="Дата Заказа")
     pay_date = models.DateField(verbose_name="Дата оплаты", blank=True, null=True)
     is_debt = models.BooleanField(verbose_name="Долг")
