@@ -1,7 +1,7 @@
 from aiogram import types
 
 from settings import bot
-from . import md
+import md
 
 
 async def show_product(message: types.Message, product: dict):
