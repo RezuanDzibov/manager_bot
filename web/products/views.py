@@ -7,12 +7,12 @@ from rest_framework.viewsets import ModelViewSet
 
 from . import services
 from .models import Product, ProductImage
-from .serializers import ProdcutSerializer, ProductImageSerializer, SoldCommitSerializer, ProductAddSerializer
+from .serializers import ProductSerializer, ProductImageSerializer, SoldCommitSerializer, ProductAddSerializer
 
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
-    serializer_class = ProdcutSerializer
+    serializer_class = ProductSerializer
     http_method_names = ["get", "head", "patch", "delete"]
     lookup_field = "code"
 
@@ -38,10 +38,10 @@ class ProuductSoldView(GenericAPIView):
 class ProductCreateView(GenericAPIView):
     serializer_class = ProductAddSerializer
 
-    @swagger_auto_schema(responses={201: ProdcutSerializer()})
+    @swagger_auto_schema(responses={201: ProductSerializer()})
     def post(self, request: HttpRequest) -> Response:
         product = services.create_product(data=request.data.copy())
-        return Response(status=201, data=ProdcutSerializer(product).data)
+        return Response(status=201, data=ProductSerializer(product).data)
 
 
 class ProductImageAddView(APIView):

@@ -20,7 +20,8 @@ class SizeListField(serializers.RelatedField):
         }
 
 
-class ProdcutSerializer(serializers.ModelSerializer):
+
+class ProductSerializer(serializers.ModelSerializer):
     sizes = SizeListField(many=True, read_only=True)
     images = ProductImageListField(many=True, read_only=True)
 
