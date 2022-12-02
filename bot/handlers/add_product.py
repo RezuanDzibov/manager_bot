@@ -134,7 +134,7 @@ async def process_add_product_retail_price(message: types.Message, state: FSMCon
     async with state.proxy() as data:
         data["retail_price"] = message.text
         await states.ProductAddState.next()
-        await message.reply("Введите дату поставки")
+        await message.reply("Введите дату поставки. Пример: 31.06.22")
 
 
 @dp.message_handler(
@@ -154,7 +154,7 @@ async def process_add_product_supply_date(message: types.Message, state: FSMCont
         date.append("20" + date.pop(-1))
         data["supply_date"] = "-".join(reversed(date))
         await states.ProductAddState.next()
-        await message.reply("Введите размеры")
+        await message.reply("Введите размеры. Пример: 130-20 140-30")
 
 
 @dp.message_handler(
@@ -196,7 +196,7 @@ async def process_add_product_sizes(message: types.Message, state: FSMContext):
 
 @dp.callback_query_handler(markups.product_images_add_cb.filter(action="add_image"))
 async def process_add_image_accept(call: types.CallbackQuery, callback_data: dict):
-    await call.message.reply("Пожайлуста используйте не сжатое изображение")
+    await call.message.reply("Пожайлуста, используйте не сжатое изображение")
     await states.ProductAddImagesState.image.set()
     state = dp.current_state()
     async with state.proxy() as data:
