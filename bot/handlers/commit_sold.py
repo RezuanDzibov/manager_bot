@@ -2,7 +2,6 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 
-import options
 import services
 import states
 from settings import dp, bot
@@ -10,7 +9,7 @@ import translates
 import md
 
 
-@dp.message_handler(Text(contains=options.COMMIT_SOLD), state=states.StartState)
+@dp.message_handler(Text(contains=translates.COMMIT_SOLD), state=states.StartState)
 async def process_commit_sold(message: types.Message, state: FSMContext):
     await state.finish()
     await states.SoldCommitState.code.set()

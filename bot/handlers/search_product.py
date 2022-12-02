@@ -2,7 +2,6 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 
-import options
 import services
 import states
 import translates
@@ -10,7 +9,7 @@ from .utils import show_product
 from settings import dp, bot
 
 
-@dp.message_handler(Text(contains=options.SEARCH_PRODUCT), state=states.StartState)
+@dp.message_handler(Text(contains=translates.SEARCH_PRODUCT), state=states.StartState)
 async def process_search_product(message: types.Message, state: FSMContext):
     await state.finish()
     await states.SearchState.code.set()

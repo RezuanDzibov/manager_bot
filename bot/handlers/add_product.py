@@ -3,7 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 
 import markups
-import options
+import translates
 import services
 import states
 from filters import validate_date, validate_sizes_match_pattern, validate_sizes_have_valid_sum, \
@@ -12,7 +12,7 @@ from settings import dp, bot, MEDIAFILES_DIR
 from .utils import show_product
 
 
-@dp.message_handler(Text(contains=options.ADD_PRODUCT), state=states.StartState)
+@dp.message_handler(Text(contains=translates.ADD_PRODUCT), state=states.StartState)
 async def process_add_product(message: types.Message, state: FSMContext):
     await state.finish()
     await states.ProductAddState.name.set()
@@ -173,7 +173,7 @@ async def process_add_product_sizes_invalid_by_pattern(message: types.Message, s
 )
 async def process_add_product_sizes_invalid_by_sum(message: types.Message, state: FSMContext):
     return await message.reply(
-        "Сумма количества размеров должна быть равна количеству товаро"
+        "Сумма количества размеров должна быть равна количеству товара"
     )
 
 
