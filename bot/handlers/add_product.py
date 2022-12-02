@@ -7,7 +7,7 @@ import translates
 import services
 import states
 from filters import validate_date, validate_sizes_match_pattern, validate_sizes_have_valid_sum, \
-    validate_pack_qunatity_less_than_qunatity
+    validate_pack_quantity_less_than_quantity
 from settings import dp, bot, MEDIAFILES_DIR
 from .utils import show_product
 
@@ -84,7 +84,7 @@ async def process_add_product_pack_quantity_invalid(message: types.Message):
 
 
 @dp.message_handler(
-    validate_pack_qunatity_less_than_qunatity,
+    validate_pack_quantity_less_than_quantity,
     state=states.ProductAddState.pack_quantity
 )
 async def process_add_product_pack_quantity_invalid_less_than_quantity(message: types.Message):
