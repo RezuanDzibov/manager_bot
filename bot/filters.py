@@ -6,7 +6,7 @@ from aiogram import types
 from settings import dp
 
 
-async def validate_pack_qunatity_less_than_qunatity(message: types.Message) -> bool:
+async def validate_pack_quantity_less_than_quantity(message: types.Message) -> bool:
     state = dp.current_state()
     async with state.proxy() as data:
         if int(message.text) <= data["quantity"]:
