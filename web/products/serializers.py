@@ -20,10 +20,10 @@ class SizeListField(serializers.RelatedField):
         }
 
 
-
 class ProductSerializer(serializers.ModelSerializer):
     sizes = SizeListField(many=True, read_only=True)
     images = ProductImageListField(many=True, read_only=True)
+    supply_date = serializers.DateField(format="%d.%m.%y")
 
     class Meta:
         model = Product
