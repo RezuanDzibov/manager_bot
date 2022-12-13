@@ -17,15 +17,3 @@ async def update_sold(url: str, *args, **kwargs):
     async with aiohttp.ClientSession() as client:
         async with client.patch(url, *args, **kwargs) as response:
             return response.status, await response.json()
-
-
-async def add_product(url, *args, **kwargs):
-    async with aiohttp.ClientSession() as client:
-        async with client.post(url, *args, **kwargs) as response:
-            return response.status, await response.json()
-
-
-async def add_product_image(url, *args, **kwargs):
-    async with aiohttp.ClientSession() as client:
-        async with client.post(url, *args, **kwargs) as response:
-            return response.status

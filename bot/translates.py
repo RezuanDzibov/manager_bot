@@ -4,7 +4,6 @@ from string import Template
 import utils
 
 SEARCH_PRODUCT = "🔍 Найти товар"
-ADD_PRODUCT = "📝 Добавить товар"
 COMMIT_SOLD = "💸 Сообщить о продаже"
 
 

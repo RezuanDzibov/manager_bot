@@ -4,15 +4,14 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 
-import translates
 import states
 from settings import dp
+from markups import get_start_markup
 
 
 @dp.message_handler(commands="start")
 async def cmd_start(message: types.Message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True, one_time_keyboard=True)
-    markup.add(translates.SEARCH_PRODUCT, translates.COMMIT_SOLD, translates.ADD_PRODUCT)
+    markup = await get_start_markup()
     await states.StartState.choice.set()
     await message.reply("Выберите действие", reply_markup=markup)
 

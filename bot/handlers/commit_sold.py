@@ -4,6 +4,7 @@ from aiogram.dispatcher.filters import Text
 
 import services
 import states
+from markups import get_start_markup
 from settings import dp, bot
 import translates
 import md
@@ -66,6 +67,10 @@ async def process_sold_commit_quantity(message: types.Message, state: FSMContext
         if isinstance(product, dict):
             product = await md.format_product_data(data=product)
         await bot.send_message(message.chat.id, product)
+    await state.finish()
+    markup = await get_start_markup()
+    await states.StartState.choice.set()
+    await bot.send_message(message.chat.id, "Выберите действие", reply_markup=markup)
 
 
 __all__ = [

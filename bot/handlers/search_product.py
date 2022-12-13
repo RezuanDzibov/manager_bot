@@ -5,6 +5,7 @@ from aiogram.dispatcher.filters import Text
 import services
 import states
 import translates
+from markups import get_start_markup
 from .utils import show_product
 from settings import dp, bot
 
@@ -30,7 +31,9 @@ async def process_search_by_code(message: types.Message, state: FSMContext):
         return
     await show_product(message, product)
     await state.finish()
-    return
+    markup = await get_start_markup()
+    await states.StartState.choice.set()
+    await bot.send_message(message.chat.id, "Выберите действие", reply_markup=markup)
 
 
 __all__ = [
