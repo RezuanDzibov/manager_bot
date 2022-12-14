@@ -6,6 +6,9 @@ ENV BOT_HOME=/home/app/bot
 RUN mkdir -p $APP_HOME
 RUN mkdir -p $BOT_HOME
 
+RUN groupadd bot
+RUN useradd -m -g bot bot -p PASSWORD
+RUN usermod -aG bot bot
 
 WORKDIR $APP_HOME
 
