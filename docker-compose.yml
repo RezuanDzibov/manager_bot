@@ -4,11 +4,12 @@ services:
   web:
     build: ./web
     env_file: ./.env
+    restart: always
     depends_on:
       - db
     environment:
       SQL_HOST: "db"
-    command: bash -c "cd web && gunicorn config.wsgi:application --bind 0.0.0.0:8000"
+    command: bash -c "cd web && python manage.py runserver 0.0.0.0:8000"
     expose:
       - 8000
     volumes:
@@ -16,27 +17,18 @@ services:
       - media_volume:/home/app/mediafiles
     ports:
       - "8000:8000"
-  nginx:
-    build: ./nginx
-    ports:
-      - "1337:80"
-    expose:
-      - 1337
+  bot:
+    build: ./bot
+    restart: always
+    environment:
+      API_URL: "http://web:8000/"
+    command: bash -c "cd bot && python main.py"
     depends_on:
       - web
     volumes:
-      - static_volume:/home/app/staticfiles
-      - media_volume:/home/app/mediafiles
-  bot:
-    build: ./bot
-    environment:
-      API_URL: "http://nginx:80/"
-    command: bash -c "cd bot && python main.py"
-    depends_on:
-      - nginx
-    volumes:
       - media_volume:/home/app/mediafiles
   db:
+    restart: always
     image: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data/
