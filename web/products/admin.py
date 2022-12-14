@@ -1,9 +1,13 @@
+from io import StringIO
+from datetime import datetime
+
 from django.contrib import admin
 from django.contrib.admin.widgets import AdminFileWidget
 from django.utils.safestring import mark_safe
 from django.db.models import ImageField
+from django.http import HttpResponse
 
-from .models import Size, ProductImage, Product, Order
+from .models import Size, ProductImage, Product, Order, Customer
 
 
 class ProdcutImageWidget(AdminFileWidget):
@@ -53,18 +57,37 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [SizeInline, ProductImageInline]
     readonly_fields = ["code"]
     search_fields = ["name", "code"]
+    actions = ["download_product_list"]
 
     @admin.display(description="Размеры")
     def sizes_range(self, obj):
         sizes = obj.sizes.all().order_by("value")
-        return f"{sizes[0].value}-{sizes[len(sizes) - 1].value}"
+        if len(sizes) > 1:
+            return f"{sizes[0].value}-{sizes[len(sizes) - 1].value}"
+        return sizes[0].value
+
+    @admin.action(description="Скачать артикулы")
+    def download_product_list(self, request, queryset):
+        products = list()
+        for product in queryset:
+            sizes = product.sizes.all().order_by("value")
+            if len(sizes) > 1:
+                sizes_range = f"{sizes[0].value}-{sizes[len(sizes) - 1].value}"
+            else:
+                sizes_range = str(sizes[0].value)
+            products.append(f"Название: {product.name}\nАртикул: {product.code}\nРазмеры: {sizes_range}")
+        file = StringIO()
+        file.write("\n\n".join(products))
+        file.seek(0)
+        response = HttpResponse(file, content_type="text")
+        response["Content-Disposition"] = f"attachment; filename=Products from {str(datetime.now().strftime('%m.%d.%y at %H.%M.%S'))}.txt"
+        return response
 
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ["client_name", "is_paid", "quantity", "product_price", "sum", "is_debt", "pay_date"]
+    list_display = ["__str__", "is_paid", "quantity", "product_price", "sum", "is_debt", "pay_date"]
     readonly_fields = ["product_price", "sum", "is_paid"]
-
 
     @admin.display(description="Оплачен")
     def is_paid(self, obj: Order):
@@ -80,3 +103,11 @@ class OrderAdmin(admin.ModelAdmin):
     def sum(self, obj: Order):
         return obj.product_price * obj.quantity
 
+
+class OrderInline(admin.TabularInline):
+    model = Order
+
+
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    inlines = [OrderInline]
