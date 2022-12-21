@@ -17,95 +17,119 @@
       "user_permissions": []
     }
   },
-   {
+      {
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+      "name": "Блузка",
+      "code": "0C78312",
+      "color": "Бордовый",
+      "quantity": 100,
+      "pack_quantity": 20,
+      "wholesale_price": 1300,
+      "retail_price": 1800,
+      "sold": 40,
+      "remainder": 60,
+      "defective": 0,
+      "refund": 0,
+      "supply_date": "2022-11-23"
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+      "name": "Джинсы",
+      "code": "450C164",
+      "color": "Синий",
+      "quantity": 200,
+      "pack_quantity": 25,
+      "wholesale_price": 1000,
+      "retail_price": 1500,
+      "sold": 40,
+      "remainder": 160,
+      "defective": 4,
+      "refund": 2,
+      "supply_date": "2022-11-23"
+    }
+  },
+  {
     "model": "products.size",
     "pk": 1,
     "fields": {
-      "name": "L"
-    }
-  },
-  {
-    "model": "products.size",
-    "pk": 2,
-    "fields": {
-      "name": "S"
-    }
-  },
-  {
-    "model": "products.color",
-    "pk": 1,
-    "fields": {
-      "name": "Red"
-    }
-  },
-  {
-    "model": "products.color",
-    "pk": 2,
-    "fields": {
-      "name": "Green"
-    }
-  },
-  {
-    "model": "products.productimage",
-    "pk": 1,
-    "fields": {
-      "alt_text": "",
-      "image": "pants.jpg",
+      "value": 130,
+      "quantity": 12,
       "product": 1
     }
   },
   {
-    "model": "products.productimage",
+    "model": "products.size",
     "pk": 2,
     "fields": {
-      "alt_text": "",
-      "image": "pants.jpg",
+      "value": 140,
+      "quantity": 12,
       "product": 1
     }
   },
   {
-    "model": "products.productimage",
+    "model": "products.size",
     "pk": 3,
     "fields": {
-      "alt_text": "Al te",
-      "image": "shirt.jpg",
+      "value": 150,
+      "quantity": 12,
+      "product": 1
+    }
+  },
+  {
+    "model": "products.size",
+    "pk": 4,
+    "fields": {
+      "value": 160,
+      "quantity": 12,
+      "product": 1
+    }
+  },
+  {
+    "model": "products.size",
+    "pk": 5,
+    "fields": {
+      "value": 170,
+      "quantity": 12,
+      "product": 1
+    }
+  },
+  {
+    "model": "products.size",
+    "pk": 6,
+    "fields": {
+      "value": 110,
+      "quantity": 100,
       "product": 2
     }
   },
   {
-    "model": "products.product",
-    "pk": 1,
+    "model": "products.size",
+    "pk": 7,
     "fields": {
-      "name": "Jacket",
-      "code": "77DC863",
-      "wholesale_price": "2000.00",
-      "retail_price": "5000.00",
-      "supply_date": "2022-11-16",
-      "sale_date": "2022-11-25",
-      "refund": false,
-      "remainder": 12,
-      "quantity": 123,
-      "size": 1,
-      "color": 2,
-      "defective": false
+      "value": 120,
+      "quantity": 50,
+      "product": 2
     }
   },
   {
-    "model": "products.product",
+    "model": "products.productimage",
+    "pk": 1,
+    "fields": {
+      "image": "bluzka-muzhskaya-lee-dark-bordo2.jpg",
+      "product": 1
+    }
+  },
+  {
+    "model": "products.productimage",
     "pk": 2,
     "fields": {
-      "name": "Pants",
-      "code": "92E9E8D",
-      "wholesale_price": "1222.00",
-      "retail_price": "2000.00",
-      "supply_date": "2022-11-20",
-      "sale_date": "2022-11-20",
-      "refund": true,
-      "remainder": 200,
-      "quantity": 12,
-      "size": 2,
-      "color": 2,
-      "defective": false
+      "image": "bluzka-muzhskaya-lee-dark-bordo.jpg",
+      "product": 1
     }
   }
 ]
