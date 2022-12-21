@@ -21,14 +21,20 @@ services:
   nginx:
     build: ./nginx
     ports:
-      - "1337:80"
-    expose:
-      - 1337
+      - "80:80"
+      - "443:443"
     depends_on:
       - web
     volumes:
       - static_volume:/home/app/staticfiles
       - media_volume:/home/app/mediafiles
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email rezuan.dzbov@gmail.com -d rezaundzibov.ru --agree-tos
   bot:
     build: ./bot
     environment:
@@ -49,8 +55,6 @@ services:
       POSTGRES_PORT: ${SQL_PORT}
     ports:
       - "5432:5432"
-    expose:
-      - 5432
 
 volumes:
   static_volume:
