@@ -28,16 +28,16 @@ services:
     volumes:
       - static_volume:/home/app/staticfiles
       - media_volume:/home/app/mediafiles
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
+      - etc-letsencrypt:/etc/letsencrypt
+      - www-html:/var/www/html
   certbot:
     image: certbot/certbot
     depends_on:
       - nginx
     container_name: certbot
     volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
+      - etc-letsencrypt:/etc/letsencrypt
+      - www-html:/var/www/html
     command: certonly --webroot -w /var/www/certbot --force-renewal --email rezuan.dzbov@gmail.com -d www.rezaundzibov.online --agree-tos
   bot:
     build: ./bot
@@ -64,3 +64,5 @@ volumes:
   static_volume:
   media_volume:
   postgres_data:
+  etc-letsencrypt:
+  www-html:
