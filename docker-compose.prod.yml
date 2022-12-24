@@ -38,7 +38,7 @@ services:
     volumes:
       - etc-letsencrypt:/etc/letsencrypt
       - www-html:/var/www/html
-    command: certonly --webroot -w /var/www/certbot --force-renewal --email rezuan.dzbov@gmail.com -d www.rezaundzibov.online --agree-tos
+    command: certonly --webroot -w /var/www/html --force-renewal --email rezuan.dzbov@gmail.com -d www.rezaundzibov.online --agree-tos
   bot:
     build: ./bot
     environment:
