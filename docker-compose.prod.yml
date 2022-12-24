@@ -21,6 +21,7 @@ services:
   nginx:
     image: nginx
     restart: unless-stopped
+    build: ./nginx
     ports:
       - "80:80"
       - "443:443"
