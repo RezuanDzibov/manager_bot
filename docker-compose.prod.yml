@@ -18,27 +18,24 @@ services:
       - media_volume:/home/app/mediafiles
     ports:
       - "8000:8000"
-#  nginx:
-#    build: ./nginx
-#    ports:
-#      - "80:80"
-#      - "443:443"
-#    depends_on:
-#      - web
-#    volumes:
-#      - static_volume:/home/app/staticfiles
-#      - media_volume:/home/app/mediafiles
-#      - etc-letsencrypt:/etc/letsencrypt
-#      - www-html:/var/www/html
-#  certbot:
-#    image: certbot/certbot
-#    depends_on:
-#      - nginx
-#    container_name: certbot
-#    volumes:
-#      - etc-letsencrypt:/etc/letsencrypt
-#      - www-html:/var/www/html
-#    command: certonly --webroot -w /var/www/html --force-renewal --email rezuan.dzbov@gmail.com -d www.rezaundzibov.online --agree-tos
+  nginx:
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - static_volume:/home/app/staticfiles
+      - media_volume:/home/app/mediafiles
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email rezuan.dzbov@gmail.com -d www.rezaundzibov.online --agree-tos
   bot:
     build: ./bot
     environment:
@@ -59,21 +56,8 @@ services:
       POSTGRES_PORT: ${SQL_PORT}
     ports:
       - "5432:5432"
-  nginx:
-    restart: unless-stopped
-    image: staticfloat/nginx-certbot
-    ports:
-      - "80:80"
-      - "443:443"
-    environment:
-      CERTBOT_EMAIL: rezuan.dzbov@gmail.com.com
-    volumes:
-      - ./nginx:/etc/nginx/user.conf.d:ro
-      - letsencrypt:/etc/letsencrypt
-
 
 volumes:
   static_volume:
   media_volume:
   postgres_data:
-  letsencrypt:
