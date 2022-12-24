@@ -19,7 +19,6 @@ services:
     ports:
       - "8000:8000"
   nginx:
-    image: nginx
     restart: unless-stopped
     build: ./nginx
     ports:
