@@ -42,7 +42,7 @@ COPY --from=builder /usr/src/app/requirements.txt .
 RUN pip install --no-cache /wheels/*
 
 COPY . $WEB_HOME
-COPY ./media/* /var/www/mediafiles
+COPY ./media/* $MEDIA_HOME
 
 COPY ./entrypoint.sh $APP_HOME
 
