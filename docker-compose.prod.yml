@@ -21,7 +21,6 @@ services:
   nginx:
     restart: unless-stopped
     build: ./nginx
-    command: bash -c "cd /var/www/staticfiles && chown nginx:nginx ./* && cd /var/www/mediafiles && chown nginx:nginx ./*"
     ports:
       - "80:80"
       - "443:443"
