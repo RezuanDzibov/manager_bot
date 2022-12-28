@@ -20,7 +20,7 @@ services:
       - "8000:8000"
   nginx:
     restart: unless-stopped
-    build: ./nginx
+    image: nginx
     ports:
       - "80:80"
       - "443:443"
