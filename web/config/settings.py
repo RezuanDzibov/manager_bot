@@ -131,7 +131,7 @@ USE_TZ = True
 STATIC_URL = os.environ.get("STATIC_URL")
 STATIC_ROOT = os.environ.get("STATIC_HOME") + "/"
 STATICFILES_DIRS = [
-    os.path.join("/var/www/", "static")
+    os.path.join("/var/www/", "staticfiles")
 ]
 
 # Default primary key field type
