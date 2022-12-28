@@ -21,9 +21,13 @@ FROM python
 
 ENV APP_HOME=/home/app
 ENV WEB_HOME=/home/app/web
+ENV STATIC_HOME=/var/www/staticfiles
+ENV MEDIA_HOME=/var/www/mediafiles
 
 RUN mkdir -p $APP_HOME
 RUN mkdir -p $WEB_HOME
+RUN mkdir -p $STATIC_HOME
+RUN mkdir -p $MEDIA_HOME
 
 RUN groupadd app
 RUN useradd -m -g app app -p PASSWORD
@@ -38,9 +42,9 @@ COPY --from=builder /usr/src/app/requirements.txt .
 RUN pip install --no-cache /wheels/*
 
 COPY . $WEB_HOME
-RUN mkdir $APP_HOME/staticfiles
-RUN mkdir $APP_HOME/mediafiles
-COPY ./media/* $APP_HOME/mediafiles
+RUN mkdir /var/www/staticfiles
+RUN mkdir /var/www/mediafiles
+COPY ./media/* /var/www/mediafiles
 
 COPY ./entrypoint.sh $APP_HOME
 
