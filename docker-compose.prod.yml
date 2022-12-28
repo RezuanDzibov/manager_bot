@@ -20,7 +20,7 @@ services:
       - "8000:8000"
   nginx:
     restart: unless-stopped
-    image: nginx
+    build: ./nginx
     command: bash -c "cd /var/www/staticfiles && chown nginx:nginx ./* && cd /var/www/mediafiles && chown nginx:nginx ./*"
     ports:
       - "80:80"
