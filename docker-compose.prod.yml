@@ -21,6 +21,7 @@ services:
   nginx:
     restart: unless-stopped
     image: nginx
+    command: bash -c "cd /var/www/staticfiles && chown nginx:nginx ./* && cd /vat/www/mediafiles && chown nginx:nginx ./*"
     ports:
       - "80:80"
       - "443:443"
