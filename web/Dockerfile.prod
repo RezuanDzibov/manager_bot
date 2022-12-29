@@ -21,8 +21,8 @@ FROM python
 
 ENV APP_HOME=/home/app
 ENV WEB_HOME=/home/app/web
-ENV STATIC_HOME=/var/www/staticfiles
-ENV MEDIA_HOME=/var/www/mediafiles
+ENV STATIC_HOME=$APP_HOME/staticfiles
+ENV MEDIA_HOME=$APP_HOME/mediafiles
 
 RUN mkdir -p $APP_HOME
 RUN mkdir -p $WEB_HOME
