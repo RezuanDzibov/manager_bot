@@ -128,13 +128,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = os.environ.get("STATIC_URL")
-STATIC_ROOT = os.environ.get("STATIC_HOME") + "/"
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR.parent / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-MEDIA_URL = os.environ.get("MEDIA_URL")
-MEDIA_ROOT = os.environ.get("MEDIA_HOME") + "/"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR.parent / "mediafiles"
