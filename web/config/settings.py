@@ -131,7 +131,7 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR.parent / "staticfiles"
 STATICFILES_DIRS = [
-    BASE_DIR.parent / "static"
+    BASE_DIR.parent / "static",
     "/var/www/statifiles"
 ]
 
