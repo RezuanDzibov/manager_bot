@@ -20,9 +20,7 @@ services:
       - "8000:8000"
   nginx:
     restart: unless-stopped
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.prod
+    build: ./nginx
     expose:
       - 80
       - 443
