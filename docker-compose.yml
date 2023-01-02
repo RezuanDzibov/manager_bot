@@ -2,6 +2,7 @@ version: "3"
 
 services:
   web:
+    container_name: web_backend
     build: ./web
     env_file: ./.env
     restart: always
@@ -18,6 +19,7 @@ services:
     ports:
       - "8000:8000"
   bot:
+    container_name: telegram_bot
     build: ./bot
     restart: always
     environment:
@@ -28,6 +30,7 @@ services:
     volumes:
       - media_volume:/home/app/mediafiles
   db:
+    container_name: postgres_db
     restart: always
     image: postgres
     volumes:
