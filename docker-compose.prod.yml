@@ -12,8 +12,6 @@ services:
     environment:
       SQL_HOST: "db"
     command: bash -c "cd web && gunicorn config.wsgi:application --bind 0.0.0.0:8000"
-    expose:
-      - 8000
     volumes:
       - static_volume:/home/app/staticfiles
       - media_volume:/home/app/mediafiles
@@ -23,9 +21,6 @@ services:
     container_name: nginx
     restart: unless-stopped
     build: ./nginx
-    expose:
-      - 80
-      - 443
     ports:
       - "80:80"
       - "443:443"
