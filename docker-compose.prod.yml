@@ -43,7 +43,7 @@ services:
     container_name: telegram_bot
     build: ./bot
     environment:
-      API_URL: "http://nginx:80/"
+      API_URL: https://${DOCKER_GATEWAY_HOST:-host.docker.internal}
     command: bash -c "cd bot && python main.py"
     depends_on:
       - nginx
