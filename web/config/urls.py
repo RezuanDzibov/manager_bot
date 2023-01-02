@@ -16,7 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-from django.views.static import serve
 
 from . import settings
 from .yasg import urlpatterns as doc_urls
@@ -27,12 +26,6 @@ urlpatterns = [
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-else:
-    urlpatterns.extend(
-        [
-            path('media/', serve, {'document_root': settings.MEDIA_ROOT}),
-            path('static/', serve, {'document_root': settings.STATIC_ROOT})
-        ]
-    )
+
 
 urlpatterns += doc_urls
