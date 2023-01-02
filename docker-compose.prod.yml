@@ -43,7 +43,7 @@ services:
     container_name: telegram_bot
     build: ./bot
     environment:
-      API_URL: https://89.108.79.145/
+      API_URL: https://rezaundzibov.online/
     command: bash -c "cd bot && python main.py"
     depends_on:
       - nginx
