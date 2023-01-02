@@ -21,6 +21,9 @@ services:
   nginx:
     restart: unless-stopped
     image: nginx
+    expose:
+      - 80
+      - 443
     ports:
       - "80:80"
       - "443:443"
