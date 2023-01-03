@@ -22,8 +22,6 @@ services:
     container_name: telegram_bot
     build: ./bot
     restart: always
-    environment:
-      API_URL: "http://web:8000/"
     command: bash -c "cd bot && python main.py"
     depends_on:
       - web
