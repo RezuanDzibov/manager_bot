@@ -1,7 +1,7 @@
 from typing import Optional, Union
 
-import settings
 import api_request
+import settings
 import translates
 
 
