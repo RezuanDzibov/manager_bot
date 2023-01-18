@@ -11,5 +11,6 @@ class SearchState(StatesGroup):
 
 class SoldCommitState(StatesGroup):
     code = State()
+    sizes = State()
     size = State()
     quantity = State()
