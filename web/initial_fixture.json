@@ -17,7 +17,46 @@
       "user_permissions": []
     }
   },
-      {
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$390000$hg2KQ4RRPStPdP4wHHVuqh$SQ9lJb9F59th8diDNq92PuLJZICrAijOBzmTlXoQglw=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "bot",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2023-01-18T13:19:13Z",
+        "groups": [],
+        "user_permissions": [
+          25,
+          26,
+          27,
+          28,
+          41,
+          42,
+          43,
+          44,
+          29,
+          30,
+          31,
+          32,
+          37,
+          38,
+          39,
+          40,
+          33,
+          34,
+          35,
+          36
+      ]
+    }
+  },
+  {
     "model": "products.product",
     "pk": 1,
     "fields": {
