@@ -27,6 +27,8 @@ services:
       - web
     volumes:
       - media_volume:/home/app/mediafiles
+    environment:
+      API_URL: "http://web:8000/"
   db:
     container_name: postgres_db
     restart: always
