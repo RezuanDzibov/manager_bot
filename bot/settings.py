@@ -14,6 +14,9 @@ load_dotenv(find_dotenv())
 API_URL = str(os.environ.get("API_URL"))
 API_TOKEN = str(os.environ.get("BOT_API_TOKEN"))
 
+API_AUTH_USERNAME = str(os.environ.get("API_AUTH_USERNAME"))
+API_AUTH_PASSWORD = str(os.environ.get("API_AUTH_PASSWORD"))
+
 bot = Bot(token=API_TOKEN)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
