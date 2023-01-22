@@ -1,7 +1,8 @@
 from aiogram import types
 
-from settings import bot
 import md
+from markups import get_cancel_markup
+from settings import bot
 
 
 async def show_product(message: types.Message, product: dict):
@@ -15,3 +16,7 @@ async def show_product(message: types.Message, product: dict):
     )
     return
 
+
+async def cancel(message: types.Message):
+    cancel_markup = await get_cancel_markup()
+    await bot.send_message(message.from_id, "Отменить действие?", reply_markup=cancel_markup)
