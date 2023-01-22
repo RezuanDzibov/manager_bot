@@ -5,14 +5,9 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 
 import states
-from settings import dp
-from markups import get_start_markup
 from filters import validate_user
-
-
-@dp.message_handler(validate_user)
-async def check_user_id(message: types.Message):
-    await message.reply("Вам не разрешено пользоваться этим ботом")
+from settings import dp, bot
+from markups import get_start_markup
 
 
 @dp.message_handler(commands="start")
@@ -30,10 +25,30 @@ async def cancel_handler(message: types.Message, state: FSMContext):
         return
     logging.info(f"Cancelling state {current_state}")
     await state.finish()
-    await message.reply("Отмена действия")
+    markup = await get_start_markup()
+    await message.reply("Отмена действия", reply_markup=markup)
+
+
+@dp.callback_query_handler(text="cancel", state="*")
+async def cancel_q(call: types.CallbackQuery, state: FSMContext):
+    current_state = await state.get_state()
+    if current_state is None:
+        return
+    logging.info(f"Cancelling state {current_state}")
+    await state.finish()
+    await states.StartState.choice.set()
+    markup = await get_start_markup()
+    await bot.send_message(call.from_user.id, "Выберите действие", reply_markup=markup)
+
+
+@dp.message_handler(validate_user)
+async def check_user_id(message: types.Message):
+    await message.reply("Вам не разрешено пользоваться этим ботом")
 
 
 __all__ = [
     "cmd_start",
     "cancel_handler",
+    "check_user_id",
+    "cancel_q"
 ]

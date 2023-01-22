@@ -10,6 +10,7 @@ from filters import validate_size_choice, validata_size_quantity
 from markups import get_start_markup, get_sizes_markup
 from settings import dp, bot
 from utils import get_size_from_text
+from handlers.utils import cancel
 
 
 @dp.message_handler(Text(contains=translates.COMMIT_SOLD), state=states.StartState)
@@ -17,6 +18,7 @@ async def process_commit_sold(message: types.Message, state: FSMContext):
     await state.finish()
     await states.SoldCommitState.code.set()
     await message.reply("Введите артикул товара")
+    await cancel(message=message)
 
 
 @dp.message_handler(lambda message: len(message.text) != 7, state=states.SoldCommitState.code)
@@ -36,7 +38,8 @@ async def process_sold_commit_code(message: types.Message, state: FSMContext):
         sizes = [list(size.values()) for size in product["sizes"]]
         data["sizes"] = sizes
         markup = await get_sizes_markup(sizes=sizes)
-        await bot.send_message(message.from_user.id, "Введите размер", reply_markup=markup)
+        await bot.send_message(message.from_id, "Введите размер", reply_markup=markup)
+        await cancel(message=message)
 
 
 @dp.message_handler(
@@ -55,6 +58,7 @@ async def process_sold_commit_size(message: types.Message, state: FSMContext):
         data["size"] = await get_size_from_text(message.text)
         await states.SoldCommitState.next()
         await message.reply("Введите количество")
+        await cancel(message=message)
 
 
 @dp.message_handler(

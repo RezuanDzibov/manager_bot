@@ -6,7 +6,7 @@ import services
 import states
 import translates
 from markups import get_start_markup
-from .utils import show_product
+from .utils import show_product, cancel
 from settings import dp, bot
 
 
@@ -15,6 +15,7 @@ async def process_search_product(message: types.Message, state: FSMContext):
     await state.finish()
     await states.SearchState.code.set()
     await message.reply("Введите артикул товара")
+    await cancel(message=message)
 
 
 @dp.message_handler(lambda message: len(message.text) != 7, state=states.SearchState.code)
