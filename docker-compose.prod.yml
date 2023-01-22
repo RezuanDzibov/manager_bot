@@ -2,6 +2,7 @@ version: "3"
 
 services:
   web:
+    restart: unless-stopped
     container_name: web_backend
     build:
       context: ./web
@@ -33,6 +34,7 @@ services:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
   certbot:
+    restart: unless-stopped
     image: certbot/certbot
     container_name: certbot
     volumes:
@@ -40,6 +42,7 @@ services:
       - ./certbot/www:/var/www/certbot
     command: certonly --webroot -w /var/www/certbot --force-renewal --email rezuan.dzbov@gmail.com -d managerdashboard.ru --agree-tos
   bot:
+    restart: unless-stopped
     container_name: telegram_bot
     build: ./bot
     command: bash -c "cd bot && python main.py"
@@ -48,6 +51,7 @@ services:
     volumes:
       - media_volume:/home/app/mediafiles
   db:
+    restart: unless-stopped
     container_name: postgres_db
     image: postgres
     volumes:
