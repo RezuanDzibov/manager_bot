@@ -10,7 +10,7 @@ from settings import dp
 from markups import get_start_markup
 
 
-@dp.message_handler(lambda message: message.from_user.id not in settings.ALLOWED_USER_IDS)
+@dp.message_handler(lambda message: message.from_id not in settings.ALLOWED_USER_IDS)
 async def check_user_id(message: types.Message):
     await message.reply("Вам не разрешено пользоваться этим ботом")
 
