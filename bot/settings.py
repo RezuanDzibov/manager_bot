@@ -16,7 +16,7 @@ API_TOKEN = str(os.environ.get("BOT_API_TOKEN"))
 
 API_AUTH_USERNAME = str(os.environ.get("API_AUTH_USERNAME"))
 API_AUTH_PASSWORD = str(os.environ.get("API_AUTH_PASSWORD"))
-ALLOWED_USER_IDS = str(os.environ.get("ALLOWED_USER_IDS"))
+ALLOWED_USER_IDS = str(os.environ.get("ALLOWED_USER_IDS")).split(" ")
 
 bot = Bot(token=API_TOKEN)
 storage = MemoryStorage()
