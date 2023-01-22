@@ -11,6 +11,10 @@ from markups import get_start_markup
 
 
 @dp.message_handler(lambda message: message.from_user.id not in settings.ALLOWED_USER_IDS)
+async def check_user_id(message: types.Message):
+    await message.reply("Вам не разрешено пользоваться этим ботом")
+
+
 @dp.message_handler(commands="start")
 async def cmd_start(message: types.Message):
     markup = await get_start_markup()
@@ -18,7 +22,6 @@ async def cmd_start(message: types.Message):
     await message.reply("Выберите действие", reply_markup=markup)
 
 
-@dp.message_handler(lambda message: message.from_user.id not in settings.ALLOWED_USER_IDS)
 @dp.message_handler(state="*", commands="cancel")
 @dp.message_handler(Text(equals="cancel", ignore_case=True), state="*")
 async def cancel_handler(message: types.Message, state: FSMContext):
