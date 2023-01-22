@@ -14,3 +14,10 @@ async def get_sizes_markup(sizes: list) -> types.ReplyKeyboardMarkup:
     sizes = [types.KeyboardButton(f"Размер: {size[0]}\nКоличество: {size[1]}") for size in sizes]
     markup.add(*sizes)
     return markup
+
+
+async def get_cancel_markup() -> types.InlineKeyboardMarkup:
+    button = types.InlineKeyboardButton("Да", callback_data="cancel")
+    markup = types.InlineKeyboardMarkup()
+    markup.add(button)
+    return markup
