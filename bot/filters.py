@@ -1,6 +1,6 @@
 from aiogram import types
 
-from settings import dp
+from settings import dp, ALLOWED_USERS
 from utils import get_size_from_text
 
 
@@ -33,3 +33,9 @@ async def validata_size_quantity(message: types.Message) -> bool:
             else:
                 continue
         return True
+
+
+async def validate_user(message: types.Message) -> bool:
+    if message.from_id in ALLOWED_USERS:
+        return False
+    return True

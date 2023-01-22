@@ -5,12 +5,12 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 
 import states
-import settings
 from settings import dp
 from markups import get_start_markup
+from filters import validate_user
 
 
-@dp.message_handler(lambda message: message.from_id not in settings.ALLOWED_USER_IDS)
+@dp.message_handler(validate_user)
 async def check_user_id(message: types.Message):
     await message.reply("Вам не разрешено пользоваться этим ботом")
 
