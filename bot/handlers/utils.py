@@ -12,7 +12,7 @@ async def show_product(message: types.Message, product: dict):
     await bot.send_message(
         message.chat.id,
         product,
-        parse_mode=types.ParseMode.MARKDOWN,
+        parse_mode=types.ParseMode.HTML,
     )
     return
 
