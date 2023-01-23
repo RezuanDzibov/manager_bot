@@ -6,7 +6,7 @@ import md
 import services
 import states
 import translates
-from filters import validate_size_choice, validata_size_quantity
+from filters import validate_size_choice, validata_size_quantity, validate_is_product_exists
 from markups import get_start_markup, get_sizes_markup
 from settings import dp, bot
 from utils import get_size_from_text
@@ -21,16 +21,16 @@ async def process_commit_sold(message: types.Message, state: FSMContext):
     await cancel(message=message)
 
 
-@dp.message_handler(lambda message: len(message.text) != 7, state=states.SoldCommitState.code)
+@dp.message_handler(validate_is_product_exists, state=states.SoldCommitState.code)
 async def process_sold_commit_code_invalid(message: types.Message):
-    return await message.reply(translates.CODE_INVALID_ANSWER)
+    return await message.reply(translates.PRODUCT_NOT_FOUND.substitute(code=message.text))
 
 
 @dp.message_handler(state=states.SoldCommitState.code)
 async def process_sold_commit_code(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data["code"] = message.text
-        product = await services.get_product(code=message.text.upper())
+        product = await services.get_product(code=message.text)
         if not product:
             await bot.send_message(message.chat.id, translates.PRODUCT_NOT_FOUND.substitute(code=message.text))
             await state.finish()
