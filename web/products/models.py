@@ -15,7 +15,7 @@ def generate_uid() -> str:
 
 class Product(models.Model):
     name = models.CharField(max_length=500, verbose_name="Название")
-    code = models.CharField(default=generate_uid, unique=True, max_length=7, verbose_name="Артикул")
+    code = models.CharField(unique=True, max_length=10, blank=True, null=False, verbose_name="Артикул")
     color = models.CharField(max_length=50, verbose_name="Цвет")
     quantity = models.PositiveIntegerField(verbose_name="Количество товара")
     pack_quantity = models.PositiveIntegerField(verbose_name="Количество пачек")
@@ -33,6 +33,11 @@ class Product(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name[:50]}: {self.code}"
+
+    def save(self, *args, **kwargs):
+        if not self.code:
+            self.code = generate_uid()
+        super(Product, self).save(*args, **kwargs)
 
 
 class Size(models.Model):

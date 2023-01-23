@@ -55,7 +55,6 @@ class ProductAdmin(admin.ModelAdmin):
     )
     list_display_links = ("name",)
     inlines = [SizeInline, ProductImageInline]
-    readonly_fields = ["code"]
     search_fields = ["name", "code"]
     actions = ["download_product_list"]
 
