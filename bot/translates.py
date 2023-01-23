@@ -36,7 +36,6 @@ INVALID_SOLD_QUANTITY = Template(
 
 SIZE_NOT_FOUND = Template("Размер: $size не найден")
 PRODUCT_NOT_FOUND = Template("Товар с артикулом: $code не найден")
-CODE_INVALID_ANSWER = "Артикул должен состоять из 7 символов, букв латинского алфавита и цифр. Пример: 11DC5A1 или 11dc5a1"
 
 
 async def translate_sizes(data: dict) -> list:
