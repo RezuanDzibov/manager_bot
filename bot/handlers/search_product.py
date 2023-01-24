@@ -6,7 +6,8 @@ import services
 import states
 import translates
 from filters import validate_is_product_exists
-from settings import dp, bot
+from markups import get_remove_keyboard
+from settings import dp
 from .utils import show_product, cancel, send_start_markup
 
 
@@ -14,7 +15,7 @@ from .utils import show_product, cancel, send_start_markup
 async def process_search_product(message: types.Message, state: FSMContext):
     await state.finish()
     await states.SearchState.code.set()
-    await message.reply("Введите артикул товара")
+    await message.reply("Введите артикул товара", reply_markup=await get_remove_keyboard())
     await cancel(chat_id=message.chat.id)
 
 

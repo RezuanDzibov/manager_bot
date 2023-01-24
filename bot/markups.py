@@ -23,3 +23,7 @@ async def get_cancel_markup() -> types.InlineKeyboardMarkup:
     markup = types.InlineKeyboardMarkup()
     markup.add(button)
     return markup
+
+
+async def get_remove_keyboard() -> types.ReplyKeyboardRemove():
+    return types.ReplyKeyboardRemove()

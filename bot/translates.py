@@ -30,9 +30,7 @@ BOOL_TRANSLATIONS = {
     False: "Нет",
 }
 
-INVALID_SOLD_QUANTITY = Template(
-    "Вы не можете продать $client_quantity штук так как существует только $initial_quantity штук размера $size у товара $product_name"
-)
+INVALID_SOLD_QUANTITY = "Количество должно быть числом и не меньше 0 и не быть больше чем присутствующее количество товара этого размера. Попробуйте снова"
 
 SIZE_NOT_FOUND = Template("Размер: $size не найден")
 PRODUCT_NOT_FOUND = Template("Товар с артикулом: $code не найден. Попробуйте еще раз")

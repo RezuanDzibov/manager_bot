@@ -27,8 +27,6 @@ async def commit_sold(code: str, size: int, quantity: int) -> Union[dict, str]:
             return translates.SIZE_NOT_FOUND.substitute(size=size)
         elif content["detail"].startswith("Product"):
             return translates.PRODUCT_NOT_FOUND.substitute(code=code)
-    elif status_code == 400:
-        return translates.INVALID_SOLD_QUANTITY.substitute(content)
 
 
 async def sold_pack(code: str):
