@@ -2,10 +2,9 @@ import os
 from pathlib import Path
 
 import aiohttp
-from dotenv import load_dotenv, find_dotenv
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
-
+from dotenv import load_dotenv, find_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent
 MEDIAFILES_DIR = BASE_DIR.parent / "mediafiles"

@@ -6,8 +6,8 @@ from aiogram.dispatcher.filters import Text
 
 import states
 from filters import validate_user
-from settings import dp, bot
 from markups import get_start_markup
+from settings import dp, bot
 
 
 async def on_shutdown(dispatcher: Dispatcher):

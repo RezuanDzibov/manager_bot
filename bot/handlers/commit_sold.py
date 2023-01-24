@@ -2,15 +2,15 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 
+import filters
 import md
 import services
 import states
 import translates
-import filters
+from handlers.utils import cancel, check_invalid_sizes, send_start_markup
 from markups import get_sizes_markup
 from settings import dp, bot
 from utils import get_size_from_text
-from handlers.utils import cancel, check_invalid_sizes, send_start_markup
 
 
 @dp.message_handler(Text(contains=translates.COMMIT_SOLD), state=states.StartState)
