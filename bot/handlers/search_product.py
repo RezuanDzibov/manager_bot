@@ -6,9 +6,8 @@ import services
 import states
 import translates
 from filters import validate_is_product_exists
-from markups import get_start_markup
 from settings import dp, bot
-from .utils import show_product, cancel
+from .utils import show_product, cancel, send_start_markup
 
 
 @dp.message_handler(Text(contains=translates.SEARCH_PRODUCT), state=states.StartState)
@@ -30,12 +29,10 @@ async def process_search_by_code(message: types.Message, state: FSMContext):
     if not product:
         await bot.send_message(message.chat.id, translates.PRODUCT_NOT_FOUND.substitute(code=message.text))
         await state.finish()
+        await send_start_markup(chat_id=message.chat.id)
         return
     await show_product(message, product)
-    await state.finish()
-    markup = await get_start_markup()
-    await states.StartState.choice.set()
-    await bot.send_message(message.chat.id, "Выберите действие", reply_markup=markup)
+    await send_start_markup(chat_id=message.chat.id)
 
 
 __all__ = [
