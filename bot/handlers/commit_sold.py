@@ -6,8 +6,8 @@ import md
 import services
 import states
 import translates
-from filters import validate_size_choice, validata_size_quantity, validate_is_product_exists
-from markups import get_start_markup, get_sizes_markup
+import filters
+from markups import get_sizes_markup
 from settings import dp, bot
 from utils import get_size_from_text
 from handlers.utils import cancel
@@ -21,7 +21,7 @@ async def process_commit_sold(message: types.Message, state: FSMContext):
     await cancel(chat_id=message.chat.id)
 
 
-@dp.message_handler(validate_is_product_exists, state=states.SoldCommitState.code)
+@dp.message_handler(filters.validate_is_product_exists, state=states.SoldCommitState.code)
 async def process_sold_commit_code_invalid(message: types.Message):
     return await message.reply(translates.PRODUCT_NOT_FOUND.substitute(code=message.text))
 
@@ -43,7 +43,7 @@ async def process_sold_commit_code(message: types.Message, state: FSMContext):
 
 
 @dp.message_handler(
-    validate_size_choice,
+    filters.validate_size_choice,
     state=states.SoldCommitState.size
 )
 async def process_sold_commit_size_invalid(message: types.Message):
@@ -62,7 +62,7 @@ async def process_sold_commit_size(message: types.Message, state: FSMContext):
 
 
 @dp.message_handler(
-    validata_size_quantity,
+    filters.validata_size_quantity,
     state=states.SoldCommitState.quantity
 )
 async def process_sold_commit_quantity_invalid(message: types.Message):
