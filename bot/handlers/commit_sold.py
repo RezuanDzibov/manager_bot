@@ -55,10 +55,27 @@ async def process_sold_commit_size_invalid(message: types.Message):
 @dp.message_handler(state=states.SoldCommitState.size)
 async def process_sold_commit_size(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data["size"] = await get_size_from_text(message.text)
-        await states.SoldCommitState.next()
-        await message.reply("Введите количество")
-        await cancel(message=message)
+        if message.text == translates.SOLD_PACK:
+            invalid_sizes = await check_invalid_sizes(sizes=data["sizes"])
+            if invalid_sizes:
+                await bot.send_message(
+                    message.chat.id,
+                    f"Количество товара размеров: {''.join(invalid_sizes)} равна нулю",
+                )
+                return await send_start_markup(chat_id=message.chat.id)
+            product = await services.sold_pack(code=data["code"])
+            if isinstance(product, dict):
+                product = await md.format_product_data(data=product)
+                await bot.send_message(message.chat.id, product)
+                await send_start_markup(chat_id=message.chat.id)
+            else:
+                await bot.send_message(message.chat.id, translates.SOLD_PACK_INVALID)
+                await send_start_markup(chat_id=message.chat.id)
+        else:
+            data["size"] = await get_size_from_text(message.text)
+            await states.SoldCommitState.next()
+            await message.reply("Введите количество")
+            await cancel(chat_id=message.chat.id)
 
 
 @dp.message_handler(
