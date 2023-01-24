@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+import aiohttp
 from dotenv import load_dotenv, find_dotenv
 from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
@@ -21,3 +22,4 @@ ALLOWED_USERS = [int(id_) for id_ in str(os.environ.get("ALLOWED_USERS")).split(
 bot = Bot(token=API_TOKEN)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
+AUTH = aiohttp.BasicAuth(login=API_AUTH_USERNAME, password=API_AUTH_PASSWORD)
