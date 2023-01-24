@@ -27,11 +27,6 @@ async def process_search_product_code_invalid(message: types.Message):
 @dp.message_handler(state=states.SearchState.code)
 async def process_search_by_code(message: types.Message, state: FSMContext):
     product = await services.get_product(code=message.text)
-    if not product:
-        await bot.send_message(message.chat.id, translates.PRODUCT_NOT_FOUND.substitute(code=message.text))
-        await state.finish()
-        await send_start_markup(chat_id=message.chat.id)
-        return
     await show_product(message, product)
     await send_start_markup(chat_id=message.chat.id)
 
