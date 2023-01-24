@@ -11,6 +11,8 @@ async def get_start_markup() -> types.ReplyKeyboardMarkup:
 
 async def get_sizes_markup(sizes: list) -> types.ReplyKeyboardMarkup:
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True, one_time_keyboard=True, row_width=1)
+    pack_button = types.KeyboardButton(translates.SOLD_PACK)
+    markup.add(pack_button)
     sizes = [types.KeyboardButton(f"Размер: {size[0]}\nКоличество: {size[1]}") for size in sizes]
     markup.add(*sizes)
     return markup
