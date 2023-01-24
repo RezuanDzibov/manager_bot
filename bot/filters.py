@@ -1,12 +1,15 @@
 from aiogram import types
 
 import settings
+import translates
 from api_request import get_product_data
 from settings import dp, ALLOWED_USERS
 from utils import get_size_from_text
 
 
 async def validate_size_choice(message: types.Message) -> bool:
+    if message.text == translates.SOLD_PACK:
+        return False
     state = dp.current_state()
     async with state.proxy() as data:
         try:
