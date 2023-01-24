@@ -16,7 +16,7 @@ async def process_search_product(message: types.Message, state: FSMContext):
     await state.finish()
     await states.SearchState.code.set()
     await message.reply("Введите артикул товара")
-    await cancel(message=message)
+    await cancel(chat_id=message.chat.id)
 
 
 @dp.message_handler(validate_is_product_exists)
