@@ -7,7 +7,7 @@ RUN mkdir -p $APP_HOME
 RUN mkdir -p $BOT_HOME
 
 RUN groupadd bot
-RUN useradd -m -g bot bot -p PASSWORD
+RUN useradd -m -g bot bot -p ${USER_PASSWORD}
 RUN usermod -aG bot bot
 
 WORKDIR $APP_HOME

@@ -30,7 +30,7 @@ RUN mkdir -p $STATIC_HOME
 RUN mkdir -p $MEDIA_HOME
 
 RUN groupadd app
-RUN useradd -m -g app app -p PASSWORD
+RUN useradd -m -g app app -p ${USER_PASSWORD}
 RUN usermod -aG app app
 
 WORKDIR $APP_HOME

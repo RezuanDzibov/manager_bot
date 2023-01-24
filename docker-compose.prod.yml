@@ -11,7 +11,7 @@ services:
     depends_on:
       - db
     environment:
-      SQL_HOST: "db"
+      USER_PASSWORD: ${USER_PASSWORD}
     command: bash -c "cd web && gunicorn config.wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - static_volume:/home/app/staticfiles
@@ -42,6 +42,7 @@ services:
       - ./certbot/www:/var/www/certbot
     command: certonly --webroot -w /var/www/certbot --force-renewal --email rezuan.dzbov@gmail.com -d managerdashboard.ru --agree-tos
   bot:
+    env_file: ./bot/.env
     restart: unless-stopped
     container_name: telegram_bot
     build: ./bot
@@ -51,6 +52,8 @@ services:
       - redis
     volumes:
       - media_volume:/home/app/mediafiles
+    environment:
+      USER_PASSWORD: ${USER_PASSWORD}
   db:
     restart: unless-stopped
     container_name: postgres_db
