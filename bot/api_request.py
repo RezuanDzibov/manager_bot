@@ -29,3 +29,14 @@ async def update_sold(url: str, *args, **kwargs):
             **kwargs
         ) as response:
             return response.status, await response.json()
+
+
+async def sold_pack(url: str, *args, **kwargs):
+    async with aiohttp.ClientSession() as client:
+        async with client.patch(
+            url,
+            auth=settings.AUTH,
+            *args,
+            **kwargs,
+        ) as response:
+            return response.status, await response.json()
