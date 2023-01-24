@@ -21,7 +21,7 @@ async def process_search_product(message: types.Message, state: FSMContext):
 @dp.message_handler(validate_is_product_exists)
 async def process_search_product_code_invalid(message: types.Message):
     await message.reply(translates.PRODUCT_NOT_FOUND.substitute(code=message.text))
-    return await cancel(chat_id=message.chat.id)
+    await cancel(chat_id=message.chat.id)
 
 
 @dp.message_handler(state=states.SearchState)
