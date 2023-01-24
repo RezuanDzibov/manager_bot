@@ -18,13 +18,13 @@ async def process_search_product(message: types.Message, state: FSMContext):
     await cancel(chat_id=message.chat.id)
 
 
-@dp.message_handler(validate_is_product_exists)
+@dp.message_handler(validate_is_product_exists, state=states.SearchState.code)
 async def process_search_product_code_invalid(message: types.Message):
     await message.reply(translates.PRODUCT_NOT_FOUND.substitute(code=message.text))
     await cancel(chat_id=message.chat.id)
 
 
-@dp.message_handler(state=states.SearchState)
+@dp.message_handler(state=states.SearchState.code)
 async def process_search_by_code(message: types.Message, state: FSMContext):
     product = await services.get_product(code=message.text)
     if not product:
