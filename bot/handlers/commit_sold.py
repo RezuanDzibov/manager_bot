@@ -66,7 +66,7 @@ async def process_sold_commit_size(message: types.Message, state: FSMContext):
     state=states.SoldCommitState.quantity
 )
 async def process_sold_commit_quantity_invalid(message: types.Message):
-    return await message.reply(
+    await message.reply(
         "Количество должно быть числом и не меньше 0 и не быть больше чем присутствующее количество товара этого размера"
     )
     return await cancel(chat_id=message.chat.id)
