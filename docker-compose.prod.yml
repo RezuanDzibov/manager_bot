@@ -7,11 +7,11 @@ services:
     build:
       context: ./web
       dockerfile: Dockerfile.prod
+      args:
+        - USER_PASSWORD=$USER_PASSWORD
     env_file: ./.env
     depends_on:
       - db
-    environment:
-      USER_PASSWORD: ${USER_PASSWORD}
     command: bash -c "cd web && gunicorn config.wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - static_volume:/home/app/staticfiles
@@ -45,7 +45,10 @@ services:
     env_file: ./bot/.env
     restart: unless-stopped
     container_name: telegram_bot
-    build: ./bot
+    build:
+      context: ./bot
+      args:
+        - USER_PASSWORD=$USER_PASSWORD
     command: bash -c "cd bot && python main.py"
     depends_on:
       - nginx

@@ -20,7 +20,11 @@ services:
       - "8000:8000"
   bot:
     container_name: telegram_bot
-    build: ./bot
+    env_file: ./bot/.env
+    build:
+      context: ./bot
+      args:
+        - USER_PASSWORD=$USER_PASSWORD
     restart: always
     command: bash -c "cd bot && python main.py"
     depends_on:
