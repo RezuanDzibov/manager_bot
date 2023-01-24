@@ -1,13 +1,22 @@
 import logging
 
 from aiogram import types
-from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher import FSMContext, Dispatcher
 from aiogram.dispatcher.filters import Text
 
 import states
 from filters import validate_user
 from settings import dp, bot
 from markups import get_start_markup
+
+
+async def on_shutdown(dispatcher: Dispatcher):
+    dp.storage.close()
+
+
+@dp.message_handler(validate_user)
+async def check_user_id(message: types.Message):
+    await message.reply("Вам не разрешено пользоваться этим ботом")
 
 
 @dp.message_handler(commands="start")
@@ -39,11 +48,6 @@ async def cancel_q(call: types.CallbackQuery, state: FSMContext):
     await states.StartState.choice.set()
     markup = await get_start_markup()
     await bot.send_message(call.from_user.id, "Выберите действие", reply_markup=markup)
-
-
-@dp.message_handler(validate_user)
-async def check_user_id(message: types.Message):
-    await message.reply("Вам не разрешено пользоваться этим ботом")
 
 
 __all__ = [
