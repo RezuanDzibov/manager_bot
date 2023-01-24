@@ -18,7 +18,7 @@ async def process_commit_sold(message: types.Message, state: FSMContext):
     await state.finish()
     await states.SoldCommitState.code.set()
     await message.reply("Введите артикул товара")
-    await cancel(message=message)
+    await cancel(chat_id=message.chat.id)
 
 
 @dp.message_handler(validate_is_product_exists, state=states.SoldCommitState.code)
@@ -39,7 +39,7 @@ async def process_sold_commit_code(message: types.Message, state: FSMContext):
         data["sizes"] = sizes
         markup = await get_sizes_markup(sizes=sizes)
         await bot.send_message(message.from_id, "Введите размер", reply_markup=markup)
-        await cancel(message=message)
+        await cancel(chat_id=message.chat.id)
 
 
 @dp.message_handler(
@@ -69,6 +69,7 @@ async def process_sold_commit_quantity_invalid(message: types.Message):
     return await message.reply(
         "Количество должно быть числом и не меньше 0 и не быть больше чем присутствующее количество товара этого размера"
     )
+    return await cancel(chat_id=message.chat.id)
 
 
 @dp.message_handler(state=states.SoldCommitState.quantity)
