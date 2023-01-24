@@ -10,7 +10,7 @@ import filters
 from markups import get_sizes_markup
 from settings import dp, bot
 from utils import get_size_from_text
-from handlers.utils import cancel
+from handlers.utils import cancel, check_invalid_sizes, send_start_markup
 
 
 @dp.message_handler(Text(contains=translates.COMMIT_SOLD), state=states.StartState)
@@ -83,10 +83,7 @@ async def process_sold_commit_quantity(message: types.Message, state: FSMContext
         if isinstance(product, dict):
             product = await md.format_product_data(data=product)
         await bot.send_message(message.chat.id, product)
-    await state.finish()
-    markup = await get_start_markup()
-    await states.StartState.choice.set()
-    await bot.send_message(message.chat.id, "Выберите действие", reply_markup=markup)
+        await send_start_markup(chat_id=message.chat.id)
 
 
 __all__ = [
