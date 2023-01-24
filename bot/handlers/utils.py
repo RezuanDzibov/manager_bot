@@ -26,7 +26,7 @@ async def show_product(message: types.Message, product: dict):
     return
 
 
-async def cancel(message: types.Message):
+async def cancel(chat_id: int):
     cancel_markup = await get_cancel_markup()
     await bot.send_message(chat_id, "Отменить действие?", reply_markup=cancel_markup)
 
