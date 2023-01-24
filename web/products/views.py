@@ -12,7 +12,6 @@ from .serializers import ProductSerializer, ProductImageSerializer, SoldCommitSe
 
 class ProductViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated]
-
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     http_method_names = ["get", "head", "patch"]
@@ -21,7 +20,6 @@ class ProductViewSet(ModelViewSet):
 
 class ProductImageRetrieve(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
-
     queryset = ProductImage.objects.all()
     serializer_class = ProductImageSerializer
 
@@ -38,3 +36,13 @@ class ProductSoldView(GenericAPIView):
             quantity=int(request.data["quantity"])
         )
         return Response(status=200, data=sold)
+
+
+class ProductSoldPackView(GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = SoldCommitSerializer
+
+    @swagger_auto_schema()
+    def patch(self, request: HttpRequest, product_code: str) -> Response:
+        product = services.commit_sold_pack(product_code=product_code)
+        return Response(status=200, data=product)
