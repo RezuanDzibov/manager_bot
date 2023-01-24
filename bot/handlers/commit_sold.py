@@ -48,7 +48,7 @@ async def process_sold_commit_code(message: types.Message, state: FSMContext):
 )
 async def process_sold_commit_size_invalid(message: types.Message):
     return await message.reply(
-        "Размер должен быть числом и не меньше 0"
+        "Вы не выбрали из предложенного списка"
     )
 
 
