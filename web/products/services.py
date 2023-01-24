@@ -44,3 +44,31 @@ def commit_sold(product_code: str, size: int, quantity: int) -> dict:
             },
             code=400
         )
+
+
+def commit_sold_pack(product_code: str) -> dict:
+    try:
+        product = Product.objects.get(code=product_code)
+    except Product.DoesNotExist:
+        raise NotFound("Product doesn't exists")
+    sizes = product.sizes.all()
+    try:
+        with transaction.atomic():
+            for size in sizes:
+                size.quantity = F("quantity") - 1
+                size.save()
+                size.refresh_from_db()
+            product.sold = F("sold") + len(sizes)
+            product.refresh_from_db()
+            return {
+                "name": product.name,
+                "code": product.code,
+                "quantity": product.quantity,
+                "sold": product.sold,
+                "remainder": product.remainder,
+                "sizes": list(
+                    [{"size_value": size.value, "size_quantity": size.quantity} for size in product.sizes.all()]
+                )
+            }
+    except IntegrityError as exc:
+        raise ValidationError(code=400)
