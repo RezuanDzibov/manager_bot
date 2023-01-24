@@ -1,11 +1,11 @@
-from io import StringIO
 from datetime import datetime
+from io import StringIO
 
 from django.contrib import admin
 from django.contrib.admin.widgets import AdminFileWidget
-from django.utils.safestring import mark_safe
 from django.db.models import ImageField
 from django.http import HttpResponse
+from django.utils.safestring import mark_safe
 
 from .models import Size, ProductImage, Product, Order, Customer
 
