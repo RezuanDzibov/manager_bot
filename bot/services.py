@@ -29,3 +29,11 @@ async def commit_sold(code: str, size: int, quantity: int) -> Union[dict, str]:
             return translates.PRODUCT_NOT_FOUND.substitute(code=code)
     elif status_code == 400:
         return translates.INVALID_SOLD_QUANTITY.substitute(content)
+
+
+async def sold_pack(code: str):
+    url = settings.API_URL + f"products/commit_sold/pack/{code}/"
+    status_code, content = await api_request.sold_pack(url=url)
+    if status_code == 200:
+        return await translates.translate_product(data=content)
+    return False
